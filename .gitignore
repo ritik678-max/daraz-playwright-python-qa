@@ -11,3 +11,8 @@ reports/
 
 .vscode/
 .idea/
+.env
+.env
+.env.dev
+.env.qa
+.env.staging

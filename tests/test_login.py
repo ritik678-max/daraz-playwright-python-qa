@@ -1,28 +1,51 @@
 from playwright.sync_api import Page, expect
 
+from utils.config import BASE_URL
+
 
 def test_login_form(page: Page):
 
-    # Open login
-    page.get_by_text("Login", exact=True).click()
+    page.goto(
+        BASE_URL,
+        wait_until="domcontentloaded"
+    )
 
-    # Email / Phone
-    email = page.get_by_placeholder(
+    # Open login form
+    login_button = page.get_by_text(
+        "Login",
+        exact=True
+    )
+
+    expect(
+        login_button
+    ).to_be_visible()
+
+    login_button.click()
+
+    # Email / phone field
+    email_field = page.get_by_placeholder(
         "Please enter your Phone or Email"
     )
 
-    # Password
-    password = page.locator(
-        "input[type='password']"
+    # Password field
+    password_field = page.get_by_placeholder(
+        "Please enter your password"
     )
 
-    # Verify fields
-    expect(email).to_be_visible()
-    expect(password).to_be_visible()
+    # Login submit button
+    submit_button = page.get_by_role(
+        "button",
+        name="LOGIN"
+    )
 
-    # Enter test data
-    email.fill("test@example.com")
-    password.fill("tester@12")
+    expect(
+        email_field
+    ).to_be_visible()
 
-    # Verify entered values
-    expect(email).to_have_value("test@example.com")
+    expect(
+        password_field
+    ).to_be_visible()
+
+    expect(
+        submit_button
+    ).to_be_visible()

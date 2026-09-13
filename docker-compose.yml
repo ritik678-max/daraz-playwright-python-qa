@@ -1,0 +1,19 @@
+services:
+  daraz-qa:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    image: daraz-qa
+
+    env_file:
+      - .env
+
+    volumes:
+      - ./allure-results:/app/allure-results
+      - ./reports:/app/reports
+      - ./screenshots:/app/screenshots
+      - ./traces:/app/traces
+      - ./test-results:/app/test-results
+
+    command: sh -c "pytest -s -m smoke -n ${WORKERS}"

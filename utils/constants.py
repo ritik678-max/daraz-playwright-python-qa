@@ -1,0 +1,10 @@
+DEFAULT_BROWSER = "chromium"
+DEFAULT_HEADLESS = True
+DEFAULT_TIMEOUT = 10000
+DEFAULT_WORKERS = 2
+
+ALLURE_RESULTS_DIR = "allure-results"
+REPORTS_DIR = "reports"
+SCREENSHOTS_DIR = "screenshots"
+TRACES_DIR = "traces"
+TEST_RESULTS_DIR = "test-results"

@@ -2,27 +2,54 @@ import logging
 import os
 
 
-LOG_FILE = "reports/automation.log"
+def get_log_file():
+
+    worker_id = os.getenv(
+        "PYTEST_XDIST_WORKER"
+    )
+
+    os.makedirs(
+        "reports",
+        exist_ok=True
+    )
+
+    if worker_id:
+        return (
+            f"reports/"
+            f"automation_{worker_id}.log"
+        )
+
+    return "reports/automation.log"
 
 
 def setup_logging():
-    os.makedirs("reports", exist_ok=True)
+
+    log_file = get_log_file()
 
     formatter = logging.Formatter(
-        "%(asctime)s | %(levelname)s | %(name)s | %(message)s"
+        "%(asctime)s | "
+        "%(levelname)s | "
+        "%(name)s | "
+        "%(message)s"
     )
 
     file_handler = logging.FileHandler(
-        LOG_FILE,
+        log_file,
         mode="w",
         encoding="utf-8"
     )
 
-    file_handler.setFormatter(formatter)
+    file_handler.setFormatter(
+        formatter
+    )
 
-    console_handler = logging.StreamHandler()
+    console_handler = (
+        logging.StreamHandler()
+    )
 
-    console_handler.setFormatter(formatter)
+    console_handler.setFormatter(
+        formatter
+    )
 
     logging.basicConfig(
         level=logging.INFO,
