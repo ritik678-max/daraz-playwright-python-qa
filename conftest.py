@@ -8,7 +8,14 @@ from playwright.sync_api import sync_playwright
 from pages.home_page import HomePage
 from pages.search_page import SearchPage
 from pages.product_page import ProductPage
-from utils.logger import setup_logging, get_logger, get_log_file
+from pages.cart_page import CartPage
+
+from utils.logger import (
+    setup_logging,
+    get_logger,
+    get_log_file
+)
+
 from utils.config import (
     BASE_URL,
     BROWSER,
@@ -34,6 +41,7 @@ def get_worker_id():
     Normal pytest execution returns:
     main
     """
+
     return os.getenv(
         "PYTEST_XDIST_WORKER",
         "main"
@@ -166,17 +174,26 @@ def page(context, request):
 
 @pytest.fixture
 def home_page(page):
+
     return HomePage(page)
 
 
 @pytest.fixture
 def search_page(page):
+
     return SearchPage(page)
 
 
 @pytest.fixture
 def product_page(page):
+
     return ProductPage(page)
+
+
+@pytest.fixture
+def cart_page(page):
+
+    return CartPage(page)
 
 
 # --------------------------------
