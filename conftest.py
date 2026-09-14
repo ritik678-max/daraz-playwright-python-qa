@@ -56,34 +56,39 @@ def get_worker_id():
 def browser():
 
     browser_name = BROWSER.lower()
-    headless_mode = HEADLESS
 
     worker_id = get_worker_id()
 
     logger.info(
         f"Worker: {worker_id} | "
         f"Browser: {browser_name} | "
-        f"Headless: {headless_mode}"
+        f"Headless: {HEADLESS}"
     )
 
     with sync_playwright() as playwright:
 
         if browser_name == "chromium":
 
-            browser = playwright.chromium.launch(
-                headless=headless_mode
+            browser_instance = (
+                playwright.chromium.launch(
+                    headless=HEADLESS
+                )
             )
 
         elif browser_name == "firefox":
 
-            browser = playwright.firefox.launch(
-                headless=headless_mode
+            browser_instance = (
+                playwright.firefox.launch(
+                    headless=HEADLESS
+                )
             )
 
         elif browser_name == "webkit":
 
-            browser = playwright.webkit.launch(
-                headless=headless_mode
+            browser_instance = (
+                playwright.webkit.launch(
+                    headless=HEADLESS
+                )
             )
 
         else:
@@ -93,9 +98,9 @@ def browser():
                 f"{browser_name}"
             )
 
-        yield browser
+        yield browser_instance
 
-        browser.close()
+        browser_instance.close()
 
 
 # --------------------------------
@@ -356,8 +361,9 @@ def pytest_runtest_makereport(
                     allure.attach.file(
                         screenshot_path,
                         name="Failure Screenshot",
-                        attachment_type=
-                        allure.attachment_type.PNG
+                        attachment_type=(
+                            allure.attachment_type.PNG
+                        )
                     )
 
                 except Exception as error:
@@ -509,5 +515,4 @@ def pytest_sessionfinish(
         f"{environment_file}"
     )
 
-    # Create executor.json
     create_allure_executor()

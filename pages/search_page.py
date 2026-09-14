@@ -32,4 +32,16 @@ class SearchPage:
         return self.product_prices.first.inner_text()
 
     def open_first_product(self):
-        self.product_links.first.click()
+        first_product = self.product_links.first
+
+        first_product.scroll_into_view_if_needed()
+
+        try:
+            first_product.click(
+                timeout=5000
+            )
+
+        except Exception:
+            first_product.click(
+                force=True
+            )
